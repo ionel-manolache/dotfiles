@@ -1,2 +1,2 @@
 
-source ~/git/dotfiles/vimfiles/_vimrc
+source ~/git/dotfiles/vimfiles/_vimrc_unicode
