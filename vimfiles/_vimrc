@@ -1,9 +1,11 @@
 
-
 set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
+
+if has("win32")
+    source $VIMRUNTIME/vimrc_example.vim
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
+endif
 
 
 filetype off
@@ -81,6 +83,7 @@ nnoremap <leader>s :mksession<CR>
 " open ag.vim
 nnoremap <leader>a :Ag
 
+if has("win32")
 "{{{CtrlP settings
 set runtimepath^="C:\Program Files (x86)\Vim\vimfiles\bundle\ctrlp.vim"
 let g:ctrlp_match_window = 'bottom,order:ttb'
@@ -88,6 +91,7 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 "}}}
+endif
 
 
 
@@ -112,8 +116,10 @@ set background=dark
 " Global Stuff
 "--------------------------------------
 
+if has("win32")
 " Set Consolas font
 set guifont=Consolas:h10:cANSI,Courier\ New:h10:cANSI
+endif
 
 " Tabstops are 4 spaces
 set shiftwidth=4
