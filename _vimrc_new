@@ -1,0 +1,32 @@
+
+source ~/.vim/_vimrc_unicode
+
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/syntastic'
+Plug 'junegunn/vim-github-dashboard'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sensible'
+Plug 'vim-scripts/gundo'
+Plug 'vim-scripts/taglist.vim'
+Plug 'vim-scripts/YankRing.vim'
+Plug 'vim-scripts/a.vim'
+Plug 'vim-scripts/TaskList.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'bling/vim-airline'
+Plug 'kien/ctrlp.vim'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'haya14busa/incsearch.vim'
+Plug 'mileszs/ack.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'flazz/vim-colorschemes'
+Plug 'elzr/vim-json'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'myusuf3/numbers.vim'
+Plug 'hallison/vim-markdown'
+
+call plug#end()
+
