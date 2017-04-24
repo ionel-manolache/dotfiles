@@ -327,6 +327,27 @@ set showmatch
 " c/c++ set F4 to switch between .c/.cpp and .h files.
 nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
+" Use the folding view for netrw
+let g:netrw_liststyle=3
+
+" remove netrw banner
+let g:netrw_banner=0
+
+" how to open files from netrw:
+" 1 - open file in new horizontal split
+" 2 - open file in new vertical split
+" 3 - open file in new tab
+" 4 - open in previous window
+let g:netrw_browse_split=4
+
+" use 20% of the width of the window
+let g:netrw_winsize=20
+
+augroup ProjectDrawer
+    autocmd!
+    autocmd VimEnter * :Vexplore
+augroup END
+
 "}}}
 
 
