@@ -8,6 +8,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 " sensible defaults everyone can agree on
+"       maybe I'll remove this and put my own stuff in .vimrc
 Plug 'tpope/vim-sensible'
 
 " colorscheme
@@ -16,7 +17,6 @@ Plug 'tyrannicaltoucan/vim-quantum'
 " enable hard mode
 " Plug 'takac/vim-hardtime'
 " let g:hardtime_default_on = 1
-
 " Goyo mode for focused writing
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -46,7 +46,7 @@ Plug 'junegunn/fzf.vim'
 nnoremap <C-P> :Files<CR>
 
 " Time tracking
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 
 " Diff directories
 Plug 'will133/vim-dirdiff'
@@ -105,6 +105,9 @@ xmap <C-k> <Plug>(neosnippet_expand_target)
 " Rust
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 let g:rustfmt_autosave = 1
+
+" wiki plugin
+Plug 'vimwiki/vimwiki'
 
 " Initialize plugin system
 call plug#end()

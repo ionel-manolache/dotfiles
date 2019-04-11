@@ -11,19 +11,66 @@ let g:airline_left_sep = ' '
 let g:airline_left_alt_sep = '|'
 let g:airline_right_sep = ' '
 let g:airline_right_alt_sep = '|'
-let g:airline_theme = 'gruvbox'
+let g:airline_theme = 'quantum'
 
 " import plugins
 source ~/.plugins.vimrc
 
 " many basic options are already set by the tpope/vim-sensible plugin
+" but we may override them
+
+set nocompatible        " make vim more useful
+filetype plugin on      " behaviors based on file type (plugins, syntax, etc)
+syntax on
+set encoding=utf-8
+set number relativenumber      " enable relative line numbers
+set wildmode=longest,list,full  " enable autocompletion
+
+set wildmenu            " enhanced command completion
+set backspace=indent,eol,start
+set ttyfast             " optimize for fast terminal connections
 
 set background=dark
 set termguicolors       " set true terminal colors
 colorscheme quantum     " set color scheme
 
 
-set nocompatible        " make vim more useful
+" Centralize backups, swapfiles and undo history
+set backupdir=~/.vim/backups
+set directory=~/.vim/swaps
+if exists("&undodir")
+    set undodir=~/.vim/undo
+endif
+
+" Don't create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
+
+" Respect modeline in files (??)
+set modeline
+set modelines=4
+
+" Enable per-directory .vimrc files and disable unsafe commands in them
+set exrc
+set secure
+
+" Show 'invisible' characters
+set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set list
+
+" Always show status line
+set laststatus=2
+
+" show the cursor position
+set ruler
+
+" show the current mode
+set showmode
+
+" show the filename in the title bar
+set title
+
+set scrolloff=4
+set sidescrolloff=4
 
 " found somewhere else
 set showmatch           " show matching brackets
@@ -33,7 +80,6 @@ set nojoinspaces        " prevents inserting two spaces after punctuation on a j
 
 set clipboard=unnamed   " use the os clipboard by default (on versions compiled with `+clipboard`)
 
-set relativenumber      " enable relative line numbers
 
 set hlsearch            " highlight searches
 set ignorecase          " ignore case of searches
@@ -74,8 +120,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " open new split panes to right, bottom
-set splitright
-set splitbelow
+set splitright splitbelow
 
 " automatically reload vimrc when it's saved (?? should I realy do this??)
 "au BufWritePost .vimrc so ~/.vimrc
@@ -119,14 +164,18 @@ set autoread
 if has("autocmd")
     au FocusLost * :wa          " save on focus lost
 
+    " disables automatic commenting on newline
+    autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
     " C/C++ set F4 to switch between .c/.cpp and .h files
-    autocmd filetype c nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.cpp,<CR>
-    autocmd filetype cpp nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+    autocmd FileType c nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.cpp,<CR>
+    autocmd FileType cpp nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
     " Compile & run current file with F5
-    autocmd filetype python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
-    autocmd filetype c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-    autocmd filetype cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++11 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    autocmd FileType python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
+    autocmd FileType c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    autocmd FileType cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++11 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    autocmd FileType sh nnoremap <F5> :w <bar> exec '!clear && shellcheck '.shellescape('%')<CR>
 
     " alternate relativenumber mode
     autocmd FocusLost * :set number
