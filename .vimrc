@@ -1,258 +1,84 @@
-set nocompatible
+" We need to set these before we load the plugins
+let g:quantum_black=1
+let g:quantum_italics=1
+let g:airline#extensions#tabline#enabled = 2
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#right_sep = ' '
+let g:airline#extensions#tabline#right_alt_sep = '|'
+let g:airline_left_sep = ' '
+let g:airline_left_alt_sep = '|'
+let g:airline_right_sep = ' '
+let g:airline_right_alt_sep = '|'
+let g:airline_theme = 'gruvbox'
 
-if has("win32")
-    source $VIMRUNTIME/vimrc_example.vim
-    source $VIMRUNTIME/mswin.vim
-    behave mswin
-endif
+" import plugins
+source ~/.plugins.vimrc
 
-filetype off            " disable filetype for now
+" many basic options are already set by the tpope/vim-sensible plugin
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternately, pass a path where Vundle should install plugins
-"    call vundle#begin('~/some/path/here')
+set background=dark
+set termguicolors       " set true terminal colors
+colorscheme quantum     " set color scheme
 
-" Let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
 
-" I've commented the plugins that I don't actually use. Will refine the list later
-" NERDTre
-" Plugin 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+set nocompatible        " make vim more useful
 
-" tabs for NERDTree
-" Plugin 'jistr/vim-nerdtree-tabs'
+" found somewhere else
+set showmatch           " show matching brackets
+set formatoptions+=     " continue comment marker in new lines
+set nojoinspaces        " prevents inserting two spaces after punctuation on a join (J)
+"--------------------
 
-" syntastic - syntax highlighter
-" Plugin 'scrooloose/syntastic'
+set clipboard=unnamed   " use the os clipboard by default (on versions compiled with `+clipboard`)
 
-" github integration (?) -- TODO Check this plugin and remove it if not used
-" Plugin 'junegunn/vim-github-dashboard'
+set relativenumber      " enable relative line numbers
 
-" git integration - NOTE and TODO check tpope's plugins and test them
-" Plugin 'tpope/vim-fugitive'
+set hlsearch            " highlight searches
+set ignorecase          " ignore case of searches
+set incsearch           " incremental search
+set smartcase           " use smart case (lowercase ignores case, upper case matches exactly)
+set wrapscan            " search scan wraps lines
 
-" do stuff surrounding stuff
-Plugin 'tpope/vim-surround'
+set noerrorbells        " don't make sounds from the computer's 'bell'
+set visualbell          " make visual signal instead
 
-" sensible defaults (?) that should be ok for everybody
-Plugin 'tpope/vim-sensible'
-
-" graphical undo
-" Plugin 'vim-scripts/gundo'
-
-" taglist: requires ctags
-" Plugin 'vim-scripts/taglist.vim'
-
-" yankring: allows selection of text to paste from previous yanks
-" Plugin 'vim-scripts/YankRing.vim'
-
-" ?????
-" Plugin 'vim-scripts/a.vim'
-
-" TaskList - make a TODO-like list (maybe check out aaronbieber/vim-quicktask
-" Plugin 'vim-scripts/TaskList.vim'
-" Plugin 'aaronbieber/vim-quicktask' " <-- this one should be better... I should check them out
-
-" comment any kind of code in a couple of key presses
-" Plugin 'tomtom/tcomment_vim'
-
-" lean & mean status/tabline for vim that's light as air
-" Plugin 'bling/vim-airline'
-
-" easy search and open files from current root directory
-" Plugin 'kien/ctrlp.vim'
-
-" colorize parentheses, braces, curly braces, etc
-Plugin 'kien/rainbow_parentheses.vim'
-
-" incremental search, highlights the current match as you type
-" Plugin 'haya14busa/incsearch.vim'
-
-" ack integration : TODO: I should learn some ack
-" Plugin 'mileszs/ack.vim'
-
-" shows visual guides for code/text indents
-" Plugin 'nathanaelkane/vim-indent-guides'
-
-" massive collection of color schemes : TODO: maybe I should check each of them out and then use just that one
-" Plugin 'flazz/vim-colorschemes'
-
-" json syntax highlighting
-" Plugin 'elzr/vim-json'
-
-" something with numbers ??
-" Plugin 'myusuf3/numbers.vim
-
-" knows how to display markdown language
-Plugin 'hallison/vim-markdown'
-
-" scratchpad
-" Plugin 'mtth/scratch.vim'
-
-" snippets
-" Plugin 'SirVer/ultisnips'
-
-" exchange variables (??)
-" Plugin 'tommcdo/vim-exchange'
-
-" atom dark color scheme
-Plugin 'gosukiwi/vim-atom-dark'
-
-" todo.txt support (??)
-Plugin 'elentok/todo.vim'
-
-call vundle#end()     " required
-
-" Brief Vundle help:
-" :PluginList		- lists configured plugins
-" :PluginInstall	- installs plugins; append '!' to update or just :PluginUpdate
-" :PluginSeaqrch foo    - searches for foo; append '!' to refresh local cache
-" :PluginClean          - confirms removal of unused plugins; append '!' to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-"
-
-"{{{Standard
-syntax on 		    " enable syntax highlighting
-
-set tabstop=4		" number of visual spaces per TAB
+set tabstop=4
 set shiftwidth=4
-set softtabstop=4	" number of spaces in TAB when editing
-set expandtab		" TABs are spaces
-set showcmd		    " show command in bottom bar
-set cursorline		" highlight current line
-filetype on
-filetype indent on  " load filetype specific indent files
-filetype plugin on  " load filetype specific plugins
-set wildmenu        " visual autocomplete for command menu
-set lazyredraw      " redraw only when we need to
-set showmatch       " highlight matching [{()}]
-set history=200     " keep 200 last used commands in history
-set scrolloff=5     " keep at least 5 lines above/below when scrolling
-set sidescrolloff=5 " keep at least 5 columns left/right when scrolling
-set cmdheight=2     " command line 2 lines high
-set undolevels=1000 " 1000 undos
-set updatecount=100 " switch every 100 chars
-set complete=.,w,b,u,U,t,i,d " ???
-set noerrorbells    " don't make sounds from the computer's 'bell'
-set visualbell      " make visual signal instead
+set softtabstop=4
+set expandtab
 
-set path+=**        " add current dir and all subdirs to path (for fuzzy file open functionality)
+set nostartofline       " do not reset cursor to start of line when moving around
 
-set modelines=0     " there seems to be an exploit using modelines...
-"}}}
+set showcmd             " show the (partial) command as it is being typed
 
-"{{{Remap : to ;
-nore ; :
-nore : ;
-"}}}
+set wrap linebreak      " soft wrapping of lines
 
-"{{{Searching
-set incsearch       " incremental search
-set hlsearch        " highlight matches
-"}}}
-
-"{{{Folding
-set foldenable      " enable folding
-set foldlevelstart=10   " open most folds by default
-set foldnestmax=10      " 10 nested folds max
-set foldmethod=marker   " fold by marker (??) TODO: check if we can fold using something else (like maybe funciton bodies in c++)
-"}}}
+set spelllang=en_us     " set spell check language to en_us
 
 " highlight last inserted text
 nnoremap gV `[v`]
 
-let mapleader=","       " leader is comma instead of /
-
 " jk is escape
 inoremap jk <esc>
 
-" save session TODO: check this out, and maybe make it work
-" nnoremap <leader>s :mksession<CR> 
-
-" open ag.vim (TODO: `TF is this??)
-" nnoremap <leader>a :Ag
-
-
-"{{{Backup
-set nobackup        " TODO: What does this do?
-set noswapfile      " TODO: What does this do?
-"}}}
-
-
-set laststatus=2    " ???? TODO: what's this?
-set stl=%f\ %m\ %r\ [%{&ff}]\ Line:%l/%L[%p%%]\ Col:%c\ Buf:%n\ [%b][0x%B]
-
-colorscheme atom-dark
-
-set background=dark
-
-
-" Global stuff
-
-set termencoding=utf-8
-set encoding=utf-8
-
-set guifont=Consolas:h10:cANSI
-
-set wrapscan        " search scan wraps lines
-
-set ignorecase      " Ignore case when search item is all lowercase
-set smartcase       " Recognize uppercase when intended
-
-set shellslash      " set the forward slash to be the slash of note. Backslash sucks
-
-set backspace=indent,eol,start " allow backspacing over indent, eol, and the start of an insert
-
-set hidden          " allows unsaved buffers to be put in background
-
-set cpoptions=ces$  " 'cw' and like commands show an $ at the end, instead of just deleting the text and replacing it
-
-set showmode        " show current mode
-
-set mousehide       " hide mouse pointer when typing
-
-set guioptions=ac   " TODO: What does this do??
-
-set timeoutlen=500  " TODO: What does this do too??
-
-set number		    " show line numbers
-set relativenumber  " show line numbers relative to current line
-
-set undofile        " save undos in a hidden file, then next time we can undo previous changes
-
-" these commands open folds
-set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
-
-set virtualedit=all " allow the cursor to go in to 'invalid' places
-
-"{{{
-"for c++ completion (ctags)
-set tags+=~/vimtags/cpp
-set tags+=~/vimtags/qt5
-set tags+=~/vimtags/wowapp
-" build tags of your own project with ctrl-f12
-map <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" OmniCppComplete ????? TODO: Check this out
-
-"}}}
-
-"{{{ from vimbits.com
-"reselect visual block after indent/outdent
+" reselect visual block after indent/outdent
 vnoremap < <gv
 vnoremap > >gv
 
-"easy split navigation
+" easy split navigation
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-"automatically reload vimrc when it's saved (?? shold I really do this??)
-" au BufWritePost _vimrc so ~/_vimrc
+" open new split panes to right, bottom
+set splitright
+set splitbelow
+
+" automatically reload vimrc when it's saved (?? should I realy do this??)
+"au BufWritePost .vimrc so ~/.vimrc
 
 " move between visual lines, not file lines:
 nnoremap j gj
@@ -263,91 +89,55 @@ inoremap <F1> <Esc>
 nnoremap <F1> <Esc>
 vnoremap <F1> <Esc>
 
-"Select all text
+" select all text
 map <leader>a ggVG
 
-"Map Q to repeat the last recorded macro
-map Q @@
-
-"Toggle search highlights
+" toggle search highlights
 nnoremap <space> :set hlsearch! hlsearch?<CR>
 
-"Insert blank lines without going into insert mode
+" insert blank lines without going into insert mode
 nmap t o<Esc>k
 nmap T O<Esc>j
 
-" Run python code from vim
-" map <F5> :w <CR>!clear <CR>:!python % <CR>
-
-"Show text limit line
+" show text limit line
 set colorcolumn=100
-hi ColorColumn ctermbg=red ctermfg=white guibg=#592929
+hi ColorColumn ctermbg=red ctermfg=white
 
-"Quickly open/source .vimrc/.gvimrc files
+" quickly open/source .vimrc
 nnoremap <leader>vv :e $MYVIMRC<CR>
-nnoremap <leader>ss :source $MYVIMRC<Bar><CR>
+nnoremap <leader>ss :source $MYVIMRC<bar><CR>
 
-"list buffers and switch to buffer quickly
+
+" list buffers and switch to buffer quickly
 nmap <leader>b :ls<CR>:buffer<space>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
-"update open files when changed externally
+" update open files when changed externally
 set autoread
 
-" If I'm at work, I want to start working
-if has("win32")
-    :cd F:/git/talk_gui
-else
-    :cd ~/git/talk_gui
+if has("autocmd")
+    au FocusLost * :wa          " save on focus lost
+
+    " C/C++ set F4 to switch between .c/.cpp and .h files
+    autocmd filetype c nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.cpp,<CR>
+    autocmd filetype cpp nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+
+    " Compile & run current file with F5
+    autocmd filetype python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
+    autocmd filetype c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    autocmd filetype cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++11 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+
+    " alternate relativenumber mode
+    autocmd FocusLost * :set number
+    autocmd FocusGained * :set relativenumber
+    autocmd InsertEnter * :set number
+    autocmd InsertLeave * :set relativenumber
+    autocmd BufReadPost * :set relativenumber
+    autocmd BufNewFile * :set relativenumber
+
+    autocmd BufWritePre * %s/\s\+$//e                       " strip trailing whitespace on save
+    autocmd BufWritePre * retab                             " unify indentation on save
+    autocmd BufRead,BufNewFile *.md,*.tex setlocal spell    " enable spell checking for certain file types
 endif
-
-" Start NERDTree by default
-" autocmd VimEnter * NerdTree
-
-"Move selection from previously opened NERDTree
-" autocmd VimEnter * wincmd p
-
-" maximize window when first opened (Ms Windows only)
-if has("win32")
-    au GUIEnter * simalt ~x
-endif
-
-"save on focus lost
-au FocusLost * :wa
-
-"}}}
-
-"show matching brackets when text indicator is over them
-set showmatch
-
-"set ,nn to toggle NERDTree
-" nnoremap <leader>nn :NERDTreeToggle<CR>
-
-" c/c++ set F4 to switch between .c/.cpp and .h files.
-nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
-
-" Use the folding view for netrw
-let g:netrw_liststyle=3
-
-" remove netrw banner
-let g:netrw_banner=0
-
-" how to open files from netrw:
-" 1 - open file in new horizontal split
-" 2 - open file in new vertical split
-" 3 - open file in new tab
-" 4 - open in previous window
-let g:netrw_browse_split=4
-
-" use 20% of the width of the window
-let g:netrw_winsize=20
-
-augroup ProjectDrawer
-    autocmd!
-    autocmd VimEnter * :Vexplore
-augroup END
-
-"}}}
-
 
