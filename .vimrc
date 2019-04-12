@@ -1,17 +1,11 @@
 " We need to set these before we load the plugins
-let g:quantum_black=1
-let g:quantum_italics=1
-let g:airline#extensions#tabline#enabled = 2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'hybrid'
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#right_sep = ' '
-let g:airline#extensions#tabline#right_alt_sep = '|'
-let g:airline_left_sep = ' '
-let g:airline_left_alt_sep = '|'
-let g:airline_right_sep = ' '
-let g:airline_right_alt_sep = '|'
-let g:airline_theme = 'quantum'
+
 
 " import plugins
 source ~/.plugins.vimrc
@@ -32,7 +26,8 @@ set ttyfast             " optimize for fast terminal connections
 
 set background=dark
 set termguicolors       " set true terminal colors
-colorscheme quantum     " set color scheme
+"colorscheme gruvbox
+colorscheme spacegray
 
 
 " Centralize backups, swapfiles and undo history

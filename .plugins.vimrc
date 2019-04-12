@@ -41,7 +41,7 @@ function! s:goyo_leave()
 endfunction
 
 " fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 nnoremap <C-P> :Files<CR>
 
@@ -108,6 +108,27 @@ let g:rustfmt_autosave = 1
 
 " wiki plugin
 Plug 'vimwiki/vimwiki'
+
+" Use vim for writing
+Plug 'reedes/vim-pencil'
+
+Plug 'tpope/vim-markdown'
+Plug 'jtratner/vim-flavored-markdown'
+
+Plug 'airodactyl/neovim-ranger'
+
+" icons
+Plug 'ryanoasis/vim-devicons'
+
+" color schemes
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim', {'as': 'dracula'}
+Plug 'romainl/Apprentice'
+Plug 'Lokaltog/vim-distinguished'
+Plug 'sickill/vim-monokai'
+Plug 'AlessandroYorba/Sierra'
+Plug 'ajh17/Spacegray.vim'
+
 
 " Initialize plugin system
 call plug#end()
