@@ -67,11 +67,8 @@ set title
 set scrolloff=4
 set sidescrolloff=4
 
-" found somewhere else
 set showmatch           " show matching brackets
-set formatoptions+=     " continue comment marker in new lines
 set nojoinspaces        " prevents inserting two spaces after punctuation on a join (J)
-"--------------------
 
 set clipboard=unnamed   " use the os clipboard by default (on versions compiled with `+clipboard`)
 
@@ -156,6 +153,7 @@ nnoremap <S-Tab> :bprevious<CR>
 " update open files when changed externally
 set autoread
 
+
 if has("autocmd")
     au FocusLost * :wa          " save on focus lost
 
@@ -183,5 +181,9 @@ if has("autocmd")
     autocmd BufWritePre * %s/\s\+$//e                       " strip trailing whitespace on save
     autocmd BufWritePre * retab                             " unify indentation on save
     autocmd BufRead,BufNewFile *.md,*.tex setlocal spell    " enable spell checking for certain file types
+
+    autocmd VimEnter *.jrnl $pu=strftime('%n[%T]%n%n')
+    autocmd VimEnter *.jrnl :Goyo
+    autocmd VimEnter *.jrnl :Limelight
 endif
 
