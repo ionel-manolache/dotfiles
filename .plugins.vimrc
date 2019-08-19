@@ -2,7 +2,7 @@
 " install vim-plug if not installed (only for linux/mac)
 if has('unix')
     if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-        silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
 endif
@@ -93,7 +93,7 @@ let g:ale_sign_warning = '●'
 let g:ale_fix_on_save = 1
 
 " autocompletion
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 
 " snippets
 Plug 'Shougo/neosnippet.vim'

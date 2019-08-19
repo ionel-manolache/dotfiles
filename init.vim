@@ -11,7 +11,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 if has('win32')
     source ~/AppData/Local/nvim/.plugins.vimrc
 else
-    source ~/.plugins.vimrc
+    source ~/.config/nvim/.plugins.vimrc
 endif
 
 " many basic options are already set by the tpope/vim-sensible plugin
@@ -33,25 +33,39 @@ set termguicolors       " set true terminal colors
 "colorscheme gruvbox
 colorscheme spacegray
 
+:function! CreateIfNotExists(fileName)
+:   if empty(glob(a:fileName))
+:       if has('unix')
+:           silent !mkdir a:fileName
+:       endif
+:       if has('win32')
+:           silent !md a:fileName
+:       endif
+:   endif
+:endfunction
 
 " Centralize backups, swapfiles and undo history
 if has('unix')
-    !mkdir ~/.vim/backups
-    !mkdir ~/.vim/swaps
-    !mkdir ~/.vim/undo
-    set backupdir=~/.vim/backups
-    set directory=~/.vim/swaps
-    set undodir=~/.vim/undo
+    let g:vim_config_home='~/.vim'
+    let g:vim_backups_dir='~/.vim/backups'
+    let g:vim_swaps_dir='~/.vim/swaps'
+    let g:vim_undo_dir='~/.vim/undo'
 endif
 
 if has('win32')
-    silent !md '~\AppData\Local\nvim\backups'
-    silent !md '~\AppData\Local\nvim\swaps'
-    silent !md '~\AppData\Local\nvim\undo'
-    set backupdir='~\AppData\Local\nvim\backups'
-    set directory='~\AppData\Local\nvim\swaps'
-    set undodir='~\AppData\Local\nvim\undo'
+    let g:vim_config_home='~\AppData\Local\nvim'
+    let g:vim_backups_dir='~\AppData\Local\nvim\backups'
+    let g:vim_swaps_dir='~\AppData\Local\nvim\swaps'
+    let g:vim_undo_dir='~\AppData\Local\nvim\undo'
 endif
+
+    call CreateIfNotExists(g:vim_config_home)
+    call CreateIfNotExists(g:vim_backups_dir)
+    call CreateIfNotExists(g:vim_swaps_dir)
+    call CreateIfNotExists(g:vim_undo_dir)
+    set backupdir=g:vim_backups_dir
+    set directory=g:vim_swaps_dir
+    set undodir=g:vim_undo_dir
 
 " Don't create backups when editing files in certain directories
 if has('unix')
