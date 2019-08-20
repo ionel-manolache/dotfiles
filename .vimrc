@@ -8,7 +8,11 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 
 " import plugins
-source ~/.plugins.vimrc
+if has('win32') || has('win64')
+    source ~/AppData/Local/nvim/.plugins.vimrc
+else
+    source ~/.config/nvim/.plugins.vimrc
+endif
 
 " many basic options are already set by the tpope/vim-sensible plugin
 " but we may override them
@@ -29,16 +33,44 @@ set termguicolors       " set true terminal colors
 "colorscheme gruvbox
 colorscheme spacegray
 
+function! CreateDir(path)
+    if empty(glob(a:path))
+        call mkdir(a:path, "p")
+    endif
+endfunction
 
 " Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
-if exists("&undodir")
-    set undodir=~/.vim/undo
-endif
+function! CreateCustomDirs()
+    let WLOCAL=""
+    if has('unix')
+        let WLOCAL=$HOME."/.vim"
+    endif
+    if has('win32') || has('win64')
+        let WLOCAL=$HOME."/AppData/Local/nvim"
+    endif
+    let BACKUPS=WLOCAL."/backups"
+    let SWAPS=WLOCAL."/swaps"
+    let UNDO=WLOCAL."/undo"
+
+    call CreateDir(BACKUPS)
+    call CreateDir(SWAPS)
+    call CreateDir(UNDO)
+
+    set backupdir=BACKUPS
+    set directory=SWAPS
+    set undodir=UNDO
+endfunction
+
+call CreateCustomDirs()
 
 " Don't create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
+if has('unix')
+    set backupskip=/tmp/*,/private/tmp/*
+endif
+
+if has('win32') || has('win64')
+    set backupskip=C:/Temp,C:/Windows/Temp
+endif
 
 " Respect modeline in files (??)
 set modeline
