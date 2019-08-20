@@ -8,7 +8,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 
 " import plugins
-if has('win32')
+if has('win32') || has('win64')
     source ~/AppData/Local/nvim/.plugins.vimrc
 else
     source ~/.config/nvim/.plugins.vimrc
@@ -33,43 +33,43 @@ set termguicolors       " set true terminal colors
 "colorscheme gruvbox
 colorscheme spacegray
 
-:function! CreateIfNotExists(fileName)
-:   if empty(glob(a:fileName))
-:       if has('unix')
-:           silent !mkdir a:fileName
-:       endif
-:       if has('win32')
-:           silent !md a:fileName
-:       endif
-:   endif
-:endfunction
+function! CreateDir(path)
+    if empty(glob(a:path))
+        call mkdir(a:path, "p")
+    endif
+endfunction
 
 " Centralize backups, swapfiles and undo history
-if has('unix')
-    let g:vim_config_home='~/.vim'
-    let g:vim_backups_dir='~/.vim/backups'
-    let g:vim_swaps_dir='~/.vim/swaps'
-    let g:vim_undo_dir='~/.vim/undo'
-endif
+function! CreateCustomDirs()
+    let WLOCAL=""
+    if has('unix')
+        let WLOCAL=$HOME."/.vim"
+    endif
+    if has('win32') || has('win64')
+        let WLOCAL=$HOME."/AppData/Local/nvim"
+    endif
+    let BACKUPS=WLOCAL."/backups"
+    let SWAPS=WLOCAL."/swaps"
+    let UNDO=WLOCAL."/undo"
 
-if has('win32')
-    let g:vim_config_home='~\AppData\Local\nvim'
-    let g:vim_backups_dir='~\AppData\Local\nvim\backups'
-    let g:vim_swaps_dir='~\AppData\Local\nvim\swaps'
-    let g:vim_undo_dir='~\AppData\Local\nvim\undo'
-endif
+    call CreateDir(BACKUPS)
+    call CreateDir(SWAPS)
+    call CreateDir(UNDO)
 
-    call CreateIfNotExists(g:vim_config_home)
-    call CreateIfNotExists(g:vim_backups_dir)
-    call CreateIfNotExists(g:vim_swaps_dir)
-    call CreateIfNotExists(g:vim_undo_dir)
-    set backupdir=g:vim_backups_dir
-    set directory=g:vim_swaps_dir
-    set undodir=g:vim_undo_dir
+    set backupdir=BACKUPS
+    set directory=SWAPS
+    set undodir=UNDO
+endfunction
+
+call CreateCustomDirs()
 
 " Don't create backups when editing files in certain directories
 if has('unix')
     set backupskip=/tmp/*,/private/tmp/*
+endif
+
+if has('win32') || has('win64')
+    set backupskip=C:/Temp,C:/Windows/Temp
 endif
 
 " Respect modeline in files (??)
