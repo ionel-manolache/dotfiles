@@ -41,24 +41,27 @@ endfunction
 
 " Centralize backups, swapfiles and undo history
 function! CreateCustomDirs()
-    let WLOCAL=""
     if has('unix')
-        let WLOCAL=$HOME."/.vim"
+        call CreateDir($HOME."/.vim/backups")
+        call CreateDir($HOME."/.vim/swaps")
+        call CreateDir($HOME."/.vim/undo")
+
+        set backupdir=~/.vim/backups
+        set directory=~/.vim/swaps
+        set undodir=~/.vim/undo
     endif
+
     if has('win32') || has('win64')
-        let WLOCAL=$HOME."/AppData/Local/nvim"
+        let WLOCAL=$HOME."/AppData/Local"
+        call CreateDir(WLOCAL."/backups")
+        call CreateDir(WLOCAL."/swaps")
+        call CreateDir(WLOCAL."/undo")
+
+        set backupdir=WLOCAL."/backups"
+        set directory=WLOCAL."/swaps"
+        set undodir=WLOCAL."/undo"
     endif
-    let BACKUPS=WLOCAL."/backups"
-    let SWAPS=WLOCAL."/swaps"
-    let UNDO=WLOCAL."/undo"
 
-    call CreateDir(BACKUPS)
-    call CreateDir(SWAPS)
-    call CreateDir(UNDO)
-
-    set backupdir=BACKUPS
-    set directory=SWAPS
-    set undodir=UNDO
 endfunction
 
 call CreateCustomDirs()
