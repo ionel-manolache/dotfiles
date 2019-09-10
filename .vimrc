@@ -6,13 +6,15 @@ let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-
 " import plugins
 if has('win32') || has('win64')
     source ~/AppData/Local/nvim/.plugins.vimrc
 else
     source ~/.config/nvim/.plugins.vimrc
 endif
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
 
 " many basic options are already set by the tpope/vim-sensible plugin
 " but we may override them

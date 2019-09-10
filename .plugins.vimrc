@@ -132,6 +132,8 @@ Plug 'sickill/vim-monokai'
 Plug 'AlessandroYorba/Sierra'
 Plug 'ajh17/Spacegray.vim'
 
+Plug 'nathanaelkane/vim-indent-guides'
+
 
 " Initialize plugin system
 call plug#end()
