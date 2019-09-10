@@ -177,6 +177,11 @@ nmap T O<Esc>j
 set colorcolumn=100
 hi ColorColumn ctermbg=red ctermfg=white
 
+" highlight the cursor line
+set cursorline
+" highlight the cursor column
+set cursorcolumn
+
 " quickly open/source .vimrc
 nnoremap <leader>vv :e $MYVIMRC<CR>
 nnoremap <leader>ss :source $MYVIMRC<bar><CR>
