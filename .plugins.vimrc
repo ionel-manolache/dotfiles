@@ -20,6 +20,7 @@ Plug 'tyrannicaltoucan/vim-quantum'
 " enable hard mode
 " Plug 'takac/vim-hardtime'
 " let g:hardtime_default_on = 1
+
 " Goyo mode for focused writing
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
@@ -47,9 +48,6 @@ endfunction
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 nnoremap <C-P> :Files<CR>
-
-" Time tracking
-" Plug 'wakatime/vim-wakatime'
 
 " Diff directories
 Plug 'will133/vim-dirdiff'
@@ -123,6 +121,8 @@ Plug 'airodactyl/neovim-ranger'
 " icons
 Plug 'ryanoasis/vim-devicons'
 
+Plug 'cwoac/nvvim'
+
 " color schemes
 Plug 'morhetz/gruvbox'
 Plug 'dracula/vim', {'as': 'dracula'}
@@ -131,9 +131,15 @@ Plug 'Lokaltog/vim-distinguished'
 Plug 'sickill/vim-monokai'
 Plug 'AlessandroYorba/Sierra'
 Plug 'ajh17/Spacegray.vim'
+" ayu color theme
+Plug 'Luxed/ayu-vim'
+" landscape colorscheme
+Plug 'itchyny/landscape.vim'
 
 Plug 'nathanaelkane/vim-indent-guides'
 
+" cheat.sh plugin (for showing help inside vim for different stuff)
+Plug 'dbeniamine/cheat.sh-vim'
 
 " Initialize plugin system
 call plug#end()

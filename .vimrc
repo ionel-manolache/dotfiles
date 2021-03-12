@@ -1,9 +1,8 @@
 " We need to set these before we load the plugins
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'hybrid'
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
+
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
 " import plugins
@@ -12,6 +11,9 @@ if has('win32') || has('win64')
 else
     source ~/.config/nvim/.plugins.vimrc
 endif
+
+let g:airline_theme='ayu'
+let g:airline_powerline_fonts = 1
 
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
@@ -32,8 +34,8 @@ set ttyfast             " optimize for fast terminal connections
 
 set background=dark
 set termguicolors       " set true terminal colors
-"colorscheme gruvbox
-colorscheme spacegray
+
+colorscheme ayu
 
 function! CreateDir(path)
     if empty(glob(a:path))
@@ -207,10 +209,10 @@ if has("autocmd")
     autocmd FileType cpp nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
     " Compile & run current file with F5
-    autocmd FileType python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
-    autocmd FileType c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-    autocmd FileType cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++11 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-    autocmd FileType sh nnoremap <F5> :w <bar> exec '!clear && shellcheck '.shellescape('%')<CR>
+    " autocmd FileType python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
+    " autocmd FileType c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    " autocmd FileType cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++11 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    " autocmd FileType sh nnoremap <F5> :w <bar> exec '!clear && shellcheck '.shellescape('%')<CR>
 
     " alternate relativenumber mode
     autocmd FocusLost * :set number
