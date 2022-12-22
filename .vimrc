@@ -1,22 +1,38 @@
-" We need to set these before we load the plugins
 let g:hybrid_custom_term_colors = 1
 let g:hybrid_reduced_contrast = 1
 
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 
 " import plugins
 if has('win32') || has('win64')
     source ~/AppData/Local/nvim/.plugins.vimrc
 else
-    source ~/.config/nvim/.plugins.vimrc
+    if filereadable('~/.config/nvim/.plugins.vimrc')
+        source ~/.config/nvim/.plugins.vimrc
+    else
+        source ~/.plugins.vimrc
+    endif
 endif
+
+let g:deoplete#enable_at_startup = 1
 
 let g:airline_theme='ayu'
 let g:airline_powerline_fonts = 1
 
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+
+
+" enable indent guides on vim startup
 let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
+" use a size of 4 as default for indent guides
+let g:indent_guides_guide_size = 4
+" use a 3% darken/lighten between guides colors
+let g:indent_guides_color_change_percent = 3
+
 
 " many basic options are already set by the tpope/vim-sensible plugin
 " but we may override them
@@ -36,6 +52,7 @@ set background=dark
 set termguicolors       " set true terminal colors
 
 colorscheme ayu
+"colorscheme landscape
 
 function! CreateDir(path)
     if empty(glob(a:path))
@@ -65,10 +82,11 @@ function! CreateCustomDirs()
         set directory=WLOCAL."/swaps"
         set undodir=WLOCAL."/undo"
     endif
-
 endfunction
 
+
 call CreateCustomDirs()
+
 
 " Don't create backups when editing files in certain directories
 if has('unix')
@@ -129,6 +147,7 @@ set expandtab
 set nostartofline       " do not reset cursor to start of line when moving around
 
 set showcmd             " show the (partial) command as it is being typed
+set noshowmode
 
 set wrap linebreak      " soft wrapping of lines
 
@@ -153,6 +172,7 @@ nnoremap <C-l> <C-w>l
 " open new split panes to right, bottom
 set splitright splitbelow
 
+
 " automatically reload vimrc when it's saved (?? should I realy do this??)
 "au BufWritePost .vimrc so ~/.vimrc
 
@@ -165,8 +185,14 @@ inoremap <F1> <Esc>
 nnoremap <F1> <Esc>
 vnoremap <F1> <Esc>
 
+" comma is <Leader> key
+let mapleader=","
+
+" toggle indent guides
+nmap <silent> <Leader>ig <Plug>IndentGuidesToggle
+
 " select all text
-map <leader>a ggVG
+map <Leader>a ggVG
 
 " toggle search highlights
 nnoremap <space> :set hlsearch! hlsearch?<CR>
@@ -176,13 +202,13 @@ nmap t o<Esc>k
 nmap T O<Esc>j
 
 " show text limit line
-set colorcolumn=100
+set colorcolumn=130
 hi ColorColumn ctermbg=red ctermfg=white
 
 " highlight the cursor line
 set cursorline
 " highlight the cursor column
-set cursorcolumn
+" set cursorcolumn
 
 " quickly open/source .vimrc
 nnoremap <leader>vv :e $MYVIMRC<CR>
@@ -194,9 +220,30 @@ nmap <leader>b :ls<CR>:buffer<space>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
 
+nnoremap <F7> :silent! !ctags -R &<CR>
+
+
 " update open files when changed externally
 set autoread
 
+" Check if NERDTree is open or active
+function! IsNERDTreeOpen()
+    return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+" Call NERDTreeFind if NERDTree is active, current window contains a modifiable
+" file, and we're not in vimdiff
+function! SyncTree()
+    if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+        NERDTreeFind
+        wincmd p
+    endif
+endfunction
+
+" zettelkasten support
+" let g:zettelkasten = "/home/ionelmanolache/Notes/Zettelkasten/"
+" command! -nargs=1 NewZettel :execute ":e" zettelkasten . strftime("%Y-%m-%d_%H:%M") . "-<args>.md"
+" nnoremap <leader>nz :NewZettel
 
 if has("autocmd")
     au FocusLost * :wa          " save on focus lost
@@ -205,14 +252,20 @@ if has("autocmd")
     autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
     " C/C++ set F4 to switch between .c/.cpp and .h files
-    autocmd FileType c nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.cpp,<CR>
+    autocmd FileType c nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.c$,.h,:s,.X123X$,.c,<CR>
     autocmd FileType cpp nnoremap <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
 
     " Compile & run current file with F5
     " autocmd FileType python nnoremap <F5> :w <bar> exec '!python '.shellescape('%')<CR>
-    " autocmd FileType c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
-    " autocmd FileType cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++11 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    autocmd FileType c nnoremap <F5> :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+    autocmd FileType cpp nnoremap <F5> :w <bar> exec '!g++ -std=c++17 '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
     " autocmd FileType sh nnoremap <F5> :w <bar> exec '!clear && shellcheck '.shellescape('%')<CR>
+
+    " completion for todo.txt files
+    autocmd FileType todo setlocal omnifunc=todo#Complete
+    autocmd FileType todo setlocal completeopt+=menuone
+    autocmd FileTYpe todo imap <buffer> + +<C-X><C-O>
+    autocmd FileTYpe todo imap <buffer> @ @<C-X><C-O>
 
     " alternate relativenumber mode
     autocmd FocusLost * :set number
@@ -225,9 +278,13 @@ if has("autocmd")
     autocmd BufWritePre * %s/\s\+$//e                       " strip trailing whitespace on save
     autocmd BufWritePre * retab                             " unify indentation on save
     autocmd BufRead,BufNewFile *.md,*.tex setlocal spell    " enable spell checking for certain file types
+    autocmd FileType markdown nnoremap <F5> i<C-R>=strftime("%Y-%m-%D %a %H:%M")<CR><Esc>
+    autocmd FileType markdown inoremap <F5> <C-R>=strftime("%Y-%m-%D %a %H:%M")<CR>
+    autocmd BufRead * call SyncTree()
 
     autocmd VimEnter *.jrnl $pu=strftime('%n[%T]%n%n')
     autocmd VimEnter *.jrnl :Goyo
     autocmd VimEnter *.jrnl :Limelight
+
 endif
 
